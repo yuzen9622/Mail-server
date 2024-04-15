@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.css"
+      integrity="sha512-lp6wLpq/o3UVdgb9txVgXUTsvs0Fj1YfelAbza2Kl/aQHbNnfTYPMLiQRvy3i+3IigMby34mtcvcrh31U50nRw=="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <form action="/email/user/send" method="POST">
+      <button type="submit" class="btn btn-primary">透過使用者帳號送出</button>
+    </form>
+
+    <input type="text" name="" id="mail" />
+
+    <button type="button" onclick="sendMail()" class="btn btn-primary">
+      透過服務帳號送出
+    </button>
+  </body>
+  <script>
+    let url = "http://localhost:8080";
+    async function sendMail() {
+      let toMail = document.getElementById("mail").value;
+      console.log(toMail);
+      let OTP = Math.floor(Math.random() * 9999) + 1;
+      const res = await fetch(`${url}/email/server/send`, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          toMail: toMail,
+          OTP: OTP,
+        }),
+      });
+      const data = await res.json();
+    }
+  </script>
+</html>
