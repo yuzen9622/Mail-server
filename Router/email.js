@@ -38,7 +38,34 @@ router.post("/user/send", (req, res) => {
     }
   });
 });
+router.post("/content/send", async (req, res) => {
+  const { toMail, firstName, secondName, phone, message } = req.body;
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS,
+    },
+  });
+  await transporter.verify();
 
+  const mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: toMail,
+    subject: `${firstName + " " + secondName}聯絡資訊`,
+    text: `電話號碼:${phone},訊息:${message}`,
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error sending email");
+    } else {
+      console.log(info);
+      res.send("Email sent");
+    }
+  });
+});
 router.post("/server/send", async (req, res, next) => {
   const { toMail, OTP } = req.body;
 
