@@ -50,8 +50,8 @@ router.post("/content/send", async (req, res) => {
   await transporter.verify();
 
   const mailOptions = {
-    from: process.env.GMAIL_USER,
-    to: toMail,
+    from: toMail,
+    to: process.env.GMAIL_USER,
     subject: `${firstName + " " + secondName}聯絡資訊`,
     text: `電話號碼:${phone},訊息:${message}`,
   };
