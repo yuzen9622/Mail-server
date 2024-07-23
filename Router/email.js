@@ -52,8 +52,8 @@ router.post("/content/send", async (req, res) => {
   const mailOptions = {
     from: toMail,
     to: process.env.GMAIL_USER,
-    subject: `${toMail} ${firstName + " " + secondName}聯絡資訊`,
-    text: `電話號碼:${phone},訊息:${message}`,
+    subject: `${toMail} 聯絡資訊`,
+    text: `${firstName + " " + secondName} 電話號碼:${phone},訊息:${message}`,
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
